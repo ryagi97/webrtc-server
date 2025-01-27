@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+
+  signalling:
+    build:
+      context: signalling
+      dockerfile: Dockerfile
+    ports:
+      - "8443:8443"
