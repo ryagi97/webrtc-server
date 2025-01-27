@@ -1,4 +1,4 @@
-FROM rust:1.84
+FROM rust:1.84 AS builder
 
 # install dependencies
 RUN cargo install cargo-c
@@ -7,10 +7,11 @@ RUN cargo install cargo-c
 WORKDIR /usr/src/
 ADD https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git#0.9 . 
 
-# Build signalling server
+# Build signalling server in a build directory
 WORKDIR /usr/src/gst-plugins-rs/net/webrtc/signalling
-RUN cargo build --bin gst-webrtc-signalling-server --release
+RUN cargo build --bin gst-webrtc-signalling-server --target-dir build/ --release
 
-# Run server
-ENV WEBRTCSINK_SIGNALLING_SERVER_LOG=debug
-CMD cargo run --bin gst-webrtc-signalling-server --release
+# Copy build target to production image
+FROM gcr.io/distroless/cc
+COPY --from=builder /usr/src/gst-plugins-rs/net/webrtc/signalling/build/release/gst-webrtc-signalling-server  /
+CMD ["./gst-webrtc-signalling-server"]
