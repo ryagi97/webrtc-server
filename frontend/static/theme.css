@@ -124,12 +124,12 @@ body{
 .button1 {
 	background-color: #222;
 	color: white;
-	border: 2px solid #4CAF50;
+	border: 2px solid #F3E502;
   word-wrap: anywhere;
 }
 
 .button1:hover {
-	background-color: #4CAF50;
+	background-color: #7d7816;
 	color: white;
 }
 
