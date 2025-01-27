@@ -12,7 +12,8 @@ This project requires `webrtcsink` from [gst-plugins-rs](https://gitlab.freedesk
 ### Launch the server
 
 ```sh
-docker compose up -d
+docker compose build
+docker compose up
 ```
 
 ## Setup a simple GST pipeline
