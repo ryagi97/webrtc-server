@@ -16,6 +16,12 @@ docker compose build
 docker compose up
 ```
 
+#### Launch with watch
+
+```sh
+docker compose up --watch
+```
+
 ## Setup a simple GST pipeline
 
 ```sh

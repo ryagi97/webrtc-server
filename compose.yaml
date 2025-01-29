@@ -5,6 +5,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:80"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./frontend/static
+          target: /usr/share/nginx/html/static
 
   signalling:
     build:
