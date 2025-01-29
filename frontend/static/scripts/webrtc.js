@@ -189,7 +189,7 @@ function Session(our_id, peer_id, closed_callback) {
     };
 
     this.streamIsPlaying = function(e) {
-        this.setStatus("Streaming");
+        this.setStatus("Hello");
     };
 
     this.onServerClose = function(event) {
@@ -357,7 +357,17 @@ function addPeer(peer_id, meta) {
     }
     display_html += "</ul>"
 
-    var li_str = '<li id="peer-' + peer_id + '"><button class="button button1">' + display_html + '</button></li>';
+    let button_text = `${meta["name"]}`
+    let button_class = "buttonNamedSource"
+
+    if (button_text === "undefined") {
+        console.log("UNNAMED SOURCE!")
+        button_text = "Unnamed source"
+        button_class = "buttonUnnamedSource"
+    }
+
+    var li_str = '<li id="peer-' + peer_id + '"><button class="button ' + button_class +'">' + button_text + '</button></li>';
+    console.log("HTML is: " + button_text)
 
     nav_ul.insertAdjacentHTML('beforeend', li_str);
     var li = document.getElementById("peer-" + peer_id);

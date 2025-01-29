@@ -19,7 +19,7 @@ docker compose up
 ## Setup a simple GST pipeline
 
 ```sh
-gst-launch-1.0 videotestsrc ! webrtcsink
+gst-launch-1.0 videotestsrc ! webrtcsink meta="meta, name=myStreamName"
 ```
 
 

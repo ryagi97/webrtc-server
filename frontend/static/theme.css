@@ -121,17 +121,30 @@ body{
 	width: 90%;
 }
 
-.button1 {
+.buttonNamedSource {
 	background-color: #222;
 	color: white;
 	border: 2px solid #F3E502;
   word-wrap: anywhere;
 }
 
-.button1:hover {
+.buttonNamedSource:hover {
 	background-color: #7d7816;
 	color: white;
 }
+
+.buttonUnnamedSource {
+	background-color: #222;
+	color: white;
+	border: 2px solid #ff8d02;
+  word-wrap: anywhere;
+}
+
+.buttonUnnamedSource:hover {
+	background-color: #b07008;
+	color: white;
+}
+
 
 #image-holder {
 	display: flex;
