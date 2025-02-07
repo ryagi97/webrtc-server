@@ -74,7 +74,9 @@ function Session(our_id, peer_id, stream_name, closed_callback) {
 
         var session_div = document.getElementById("session-" + this.our_id);
         if (session_div) {
-            session_div.parentNode.removeChild(session_div);
+            this.setID("Unknown")
+            this.setStatus("Disconnected")
+            //session_div.parentNode.removeChild(session_div);
         }
         if (this.ws_conn) {
             this.ws_conn.close();
