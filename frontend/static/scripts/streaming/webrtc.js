@@ -27,7 +27,7 @@ var rtc_configuration = {iceServers: [{urls: "stun:stun.l.google.com:19302"},
                          // iceTransportPolicy: "relay",
                         };
 
-var sessions = null;
+var sessions = {}
 
 /* https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript */
 function getOurId() {
@@ -46,7 +46,7 @@ function Uint8ToString(u8a){
   return c.join("");
 }
 
-function Session(our_id, peer_id, stream_name, closed_callback) {
+function Session(our_id, peer_id, closed_callback) {
     this.id = null;
     this.peer_connection = null;
     this.ws_conn = null;
@@ -55,7 +55,6 @@ function Session(our_id, peer_id, stream_name, closed_callback) {
     this.closed_callback = closed_callback;
     this.data_channel = null;
     this.input = null;
-    this.id = stream_name;
 
     this.getVideoElement = function() {
         return document.getElementById("stream-" + this.our_id);
@@ -90,16 +89,8 @@ function Session(our_id, peer_id, stream_name, closed_callback) {
         this.closed_callback(this.our_id);
     };
 
-    this.setID = function(text) {
-        console.log("ID: " + text);
-        var span = document.getElementById("id-" + this.our_id);
-        // Don't set the status if it already contains an error
-        if (!span.classList.contains('error'))
-            span.textContent = text;
-    };
-
     this.setStatus = function(text) {
-        console.log("Status:" + text);
+        console.log(text);
         var span = document.getElementById("status-" + this.our_id);
         // Don't set the status if it already contains an error
         if (!span.classList.contains('error'))
@@ -198,7 +189,7 @@ function Session(our_id, peer_id, stream_name, closed_callback) {
     };
 
     this.streamIsPlaying = function(e) {
-        this.setStatus("Playing");
+        this.setStatus("Hello");
     };
 
     this.onServerClose = function(event) {
@@ -345,11 +336,11 @@ function startSession() {
         return;
     }
 
-    sessions = new Session(peer_id);
+    sessions[peer_id] = new Session(peer_id);
 }
 
-function session_closed() {
-    sessions = null;
+function session_closed(peer_id) {
+    sessions[peer_id] = null;
 }
 
 function addPeer(peer_id, meta) {
@@ -371,22 +362,24 @@ function addPeer(peer_id, meta) {
 
     if (button_text === "undefined") {
         console.log("UNNAMED SOURCE!")
-        button_text = "Unnamed Source"
+        button_text = "Unnamed source"
         button_class = "buttonUnnamedSource"
     }
 
     var li_str = '<li id="peer-' + peer_id + '"><button class="button ' + button_class +'">' + button_text + '</button></li>';
+    console.log("HTML is: " + button_text)
 
     nav_ul.insertAdjacentHTML('beforeend', li_str);
     var li = document.getElementById("peer-" + peer_id);
     li.onclick = function(e) {
-        // set our video element to the clicked screen
-        sessions = new Session("1", peer_id, session_closed);
-        sessions.setID(`${meta["name"]}` === "undefined" ? peer_id : meta["name"])
+        var sessions_div = document.getElementById('sessions');
+        var our_id = getOurId();
+        var session_div_str = '<div class="session" id="session-' + our_id + '"><video preload="none" class="stream" id="stream-' + our_id + '"></video><p>Status: <span id="status-' + our_id + '">unknown</span></p></div>'
+        sessions_div.insertAdjacentHTML('beforeend', session_div_str);
+        sessions[peer_id] = new Session(our_id, peer_id, session_closed);
     }
 }
 
-// clears entire list of peers (camera list on left)
 function clearPeers() {
     var nav_ul = document.getElementById("camera-list");
 

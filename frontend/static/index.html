@@ -11,9 +11,6 @@
 -->
 <html>
   <head>
-    <style>
-      .error { color: red; }
-    </style>
     <title>WebRTC Streaming</title>
     <link rel="icon" type="image/x-icon" href="https://images.squarespace-cdn.com/content/v1/65742f5eadd857659de51dec/270506aa-aff7-436f-9be1-d539b086e461/favicon.ico?format=100w">
     <link rel="stylesheet" type="text/css" href="theme.css">
@@ -26,15 +23,33 @@
 
   <body>
     <div class="holygrail-body">
+      
       <div class="content">
+        
+        <div id="sessions-title">
+          <h1> Content Viewer </h1>
+        </div>        
+
         <div id="sessions">
+          <!-- Video Elements go here -->
+          <div class="session" id="session-1">
+            <video class="stream" id="stream-1" width="100%" height="100%" controls preload="none" autoplay playsinline> </video>
+            <p> ID: <span id="id-1"> UNKNOWN </span> </p>
+            <p> Status: <span id="status-1"> DISCONNECTED </span> </p>
+          </div>
+  
         </div>
+        
         <div id="image-holder">
-          <img id="image"></img>
+          <img id="image"> </img>
         </div>
+
       </div>
+      <!-- Button Elements go here -->
       <ul class="nav" id="camera-list">
       </ul>
+
     </div>
+
   </body>
 </html>
